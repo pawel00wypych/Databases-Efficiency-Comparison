@@ -1,0 +1,52 @@
+version: '3.8'
+
+services:
+  mongodb7:
+    image: mongo:7.0
+    container_name: mongodb7
+    ports:
+      - "27017:27017"
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: example
+    volumes:
+      - mongodb7_data:/data/db
+
+  mongodb8:
+    image: mongo:8.0
+    container_name: mongodb8
+    ports:
+      - "27018:27017"
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: example
+    volumes:
+      - mongodb8_data:/data/db
+
+  postgres:
+    image: postgres:latest
+    container_name: postgres
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: mydatabase
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  oracledb:
+    image: gvenzl/oracle-free:latest
+    container_name: oracledb
+    ports:
+      - "1521:1521"
+    environment:
+      ORACLE_PASSWORD: oracle
+    volumes:
+      - oracledb_data:/opt/oracle/oradata
+
+volumes:
+  mongodb7_data:
+  mongodb8_data:
+  postgres_data:
+  oracledb_data:
