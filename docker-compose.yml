@@ -40,9 +40,10 @@ services:
     ports:
       - "1521:1521"
     environment:
-      ORACLE_PASSWORD: oracle
+      ORACLE_PASSWORD: oracle  # Default system password
     volumes:
-      - oracledb_data:/opt/oracle/oradata
+      - ./oracle-init-scripts:/docker-entrypoint-initdb.d  # Mount SQL scripts
+    restart: unless-stopped
 
 volumes:
   mongodb7_data:
