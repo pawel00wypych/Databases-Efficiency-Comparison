@@ -25,3 +25,9 @@ Comparison between efficiency in PostgreSQL, OracleDB, MongoDB 7 and MongoDB 8 u
 
 ## Data set:
 https://www.kaggle.com/datasets/gauthamp10/google-playstore-apps?select=Google-Playstore.csv&fbclid=IwZXh0bgNhZW0CMTAAAR15ErCJKTFgYNq0z2Rlv4Qv4HtDqWL5MU_KMEJjxEXhePNwHnGNHAvPwr4_aem_xN1mb7DQU-Q1-LVUeoNuMg
+
+
+## How to load data to oracleDB from csv file:
+- put ```Google-Playstore.csv``` file to ```data/``` directory
+- run ```docker-compose up -d```
+- run ```docker exec -it oracledb /bin/bash -c "/oracle-data-loader/load_data.sh"```
