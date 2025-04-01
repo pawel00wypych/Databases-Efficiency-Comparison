@@ -25,8 +25,7 @@ CREATE TABLE google_playstore_ext (
     privacy_policy VARCHAR2(255),
     ad_supported VARCHAR2(255),
     in_app_purchases VARCHAR2(255),
-    editor_choice VARCHAR2(255),
-    scraped_time VARCHAR2(255)
+    editor_choice VARCHAR2(255)
 )
 ORGANIZATION EXTERNAL
 (
