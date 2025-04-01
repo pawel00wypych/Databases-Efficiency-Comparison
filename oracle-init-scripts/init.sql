@@ -1,5 +1,3 @@
-ALTER SESSION SET "_ORACLE_SCRIPT"=true;
-
 -- Drop user if exists (prevents errors on re-runs)
 BEGIN
     EXECUTE IMMEDIATE 'DROP USER ztbd CASCADE';
@@ -19,6 +17,11 @@ END;
 -- Grant permissions to user
 GRANT CONNECT, RESOURCE TO ztbd;
 ALTER USER ztbd QUOTA UNLIMITED ON USERS;
+GRANT CREATE ANY DIRECTORY TO ztbd;
+GRANT READ, WRITE ON DIRECTORY data_dir TO ztbd;
+
+CREATE OR REPLACE DIRECTORY data_dir AS '/shared-data';
+GRANT READ, WRITE ON DIRECTORY data_dir TO ztbd;
 
 -- Switch to the new user
 ALTER SESSION SET CURRENT_SCHEMA = ztbd;
