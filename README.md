@@ -30,4 +30,4 @@ https://www.kaggle.com/datasets/gauthamp10/google-playstore-apps?select=Google-P
 ## How to load data to oracleDB from csv file:
 - put ```Google-Playstore.csv``` file to ```data/``` directory
 - run ```docker-compose up -d```
-- run ```docker exec -it oracledb /bin/bash -c "/oracle-data-loader/load_data.sh"```
+- run ```docker exec -i oracledb sqlplus system/oracle@FREE < oracle-data-loader/load.sql```

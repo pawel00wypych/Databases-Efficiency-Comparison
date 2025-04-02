@@ -1,36 +1,47 @@
--- Switch to the new user
+-- Switch to the ztbd user
 ALTER SESSION SET CURRENT_SCHEMA = ztbd;
 
+BEGIN
+EXECUTE IMMEDIATE 'DROP TABLE google_playstore_ext';
+EXCEPTION
+    WHEN OTHERS THEN
+        NULL;  -- Ignore if table doesn't exist
+END;
+/
+
+CREATE OR REPLACE DIRECTORY
+    ext_data_dir AS '/opt/oracle/shared-data';
+GRANT READ, WRITE ON DIRECTORY
+    ext_data_dir TO ztbd;
 
 CREATE TABLE google_playstore_ext (
     app_name VARCHAR2(255),
-    app_id VARCHAR2(100),
-    category VARCHAR2(100),
-    rating VARCHAR2(255),
-    rating_count VARCHAR2(255),
-    installs VARCHAR2(255),
-    min_installs VARCHAR2(255),
-    max_installs VARCHAR2(255),
-    free VARCHAR2(255),
-    price VARCHAR2(255),
-    currency VARCHAR2(10),
-    "size" VARCHAR2(255),
-    min_android VARCHAR2(50),
+    category_name VARCHAR2(64),
+    rating_value NUMBER(2,1),
+    rating_count NUMBER,
+    installs NUMBER(16),
+    min_installs NUMBER(16),
+    max_installs NUMBER(16),
+    free CHAR(1),
+    price NUMBER(10),
+    currency_name VARCHAR2(16),
+    app_size NUMBER,
+    min_android VARCHAR2(64),
     developer_name VARCHAR2(255),
     developer_website VARCHAR2(255),
     developer_email VARCHAR2(255),
-    released VARCHAR2(255),
-    last_updated VARCHAR2(255),
-    content_rating VARCHAR2(50),
+    released DATE,
+    last_updated DATE,
+    content_rating NUMBER,
     privacy_policy VARCHAR2(255),
-    ad_supported VARCHAR2(255),
-    in_app_purchases VARCHAR2(255),
-    editor_choice VARCHAR2(255)
+    ad_supported CHAR(1),
+    in_app_purchases CHAR(1),
+    editor_choice CHAR(1)
 )
 ORGANIZATION EXTERNAL
 (
     TYPE ORACLE_LOADER
-    DEFAULT DIRECTORY data_dir
+    DEFAULT DIRECTORY ext_data_dir
     ACCESS PARAMETERS
     (
         RECORDS DELIMITED BY NEWLINE
@@ -38,7 +49,8 @@ ORGANIZATION EXTERNAL
         FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"'
         MISSING FIELD VALUES ARE NULL
     )
-    LOCATION ('Google-Playstore.csv')
+    LOCATION ('Google-Playstore_cleaned.csv')
 )
-REJECT LIMIT UNLIMITED;
+REJECT LIMIT UNLIMITED; --unlimited number of errors while loading data
+
 

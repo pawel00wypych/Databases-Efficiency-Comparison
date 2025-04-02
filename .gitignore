@@ -176,3 +176,5 @@ cython_debug/
 *.csv
 
 data/
+
+anaconda_projects
