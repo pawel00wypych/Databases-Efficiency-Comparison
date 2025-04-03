@@ -53,4 +53,10 @@ ORGANIZATION EXTERNAL
 )
 REJECT LIMIT UNLIMITED; --unlimited number of errors while loading data
 
+-- Step 4: Insert data into the main table
+INSERT INTO Developer(developer_name, developer_website, developer_email)
+SELECT developer_name, developer_website, developer_email
+FROM google_playstore_ext;
 
+-- Commit the transaction
+COMMIT;
