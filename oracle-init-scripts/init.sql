@@ -1,16 +1,14 @@
-ALTER SESSION SET "_ORACLE_SCRIPT"=true;
-
 -- Drop user if exists (prevents errors on re-runs)
 BEGIN
     EXECUTE IMMEDIATE 'DROP USER ztbd CASCADE';
 EXCEPTION
-    WHEN OTHERS THEN NULL;  -- Ignore errors if user doesn't exist
+    WHEN OTHERS THEN NULL;  -- Ignore error if user doesn't exist
 END;
 /
-
 -- Create the new user (this will run after dropping)
 BEGIN
-    EXECUTE IMMEDIATE 'CREATE USER ztbd IDENTIFIED BY password';
+    EXECUTE IMMEDIATE 'CREATE USER ztbd IDENTIFIED BY password default tablespace users
+                        temporary tablespace temp';
 EXCEPTION
     WHEN OTHERS THEN NULL;  -- Ignore errors if user already exists
 END;
@@ -19,16 +17,17 @@ END;
 -- Grant permissions to user
 GRANT CONNECT, RESOURCE TO ztbd;
 ALTER USER ztbd QUOTA UNLIMITED ON USERS;
+GRANT CREATE ANY DIRECTORY TO ztbd;
+GRANT CREATE TABLE, CREATE VIEW, CREATE PROCEDURE, CREATE SEQUENCE TO ztbd;
+
 
 -- Switch to the new user
 ALTER SESSION SET CURRENT_SCHEMA = ztbd;
 
-
 -- First, create the independent tables: Currency, Developer, Content_Rating
 CREATE TABLE Currency (
     currency_id NUMBER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
-    currency_name VARCHAR2(255),
-    symbol VARCHAR2(10)
+    currency_name VARCHAR2(16)
 );
 
 CREATE TABLE Developer (
@@ -40,21 +39,20 @@ CREATE TABLE Developer (
 
 CREATE TABLE Content_Rating (
     content_rating_id NUMBER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
-    rating_name VARCHAR2(255)
+    rating_name VARCHAR2(64)
 );
 
--- Now, create the dependent tables that reference the above tables
-
+-- Create the dependent tables that reference the above tables
 CREATE TABLE Application (
     app_id NUMBER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
     app_name VARCHAR2(255),
     free CHAR(1),
-    price NUMBER,
+    price NUMBER(10),
     currency_id NUMBER,
-    "size" NUMBER,
+    app_size NUMBER,
     developer_id NUMBER,
     released DATE,
-    privacy_policy CLOB,
+    privacy_policy VARCHAR2(1024),
     last_updated DATE,
     content_rating_id NUMBER,
     ad_supported CHAR(1),
@@ -67,7 +65,7 @@ CREATE TABLE Application (
 
 CREATE TABLE Category (
     category_id NUMBER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
-    category_name VARCHAR2(255)
+    category_name VARCHAR2(64)
 );
 
 CREATE TABLE Application_Category (
@@ -81,20 +79,21 @@ CREATE TABLE Application_Category (
 CREATE TABLE Rating (
     rating_id NUMBER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
     app_id NUMBER,
-    rating_value NUMBER,
-    rating_date DATE,
-    FOREIGN KEY (app_id) REFERENCES Application(app_id)
+    rating_value NUMBER(2,1),
+    rating_count NUMBER,
+    FOREIGN KEY (app_id) REFERENCES Application(app_id) ON DELETE CASCADE
 );
 
 CREATE TABLE Install_History (
     install_id NUMBER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
     app_id NUMBER,
-    date_recorded DATE,
-    installs NUMBER(38,0),
-    FOREIGN KEY (app_id) REFERENCES Application(app_id)
+    installs NUMBER(16),
+    minimum_installs NUMBER(16),
+    maximum_installs NUMBER(16),
+    FOREIGN KEY (app_id) REFERENCES Application(app_id) ON DELETE CASCADE
 );
 
 CREATE TABLE Minimum_Android (
     android_id NUMBER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
-    version VARCHAR2(50)
+    version VARCHAR2(64)
 );
