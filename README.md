@@ -27,8 +27,9 @@ Comparison between efficiency in PostgreSQL, OracleDB, MongoDB 7 and MongoDB 8 u
 https://www.kaggle.com/datasets/gauthamp10/google-playstore-apps?select=Google-Playstore.csv&fbclid=IwZXh0bgNhZW0CMTAAAR15ErCJKTFgYNq0z2Rlv4Qv4HtDqWL5MU_KMEJjxEXhePNwHnGNHAvPwr4_aem_xN1mb7DQU-Q1-LVUeoNuMg
 
 
-## How to load data to oracleDB from csv file:
+## How to create tables and load data to oracleDB from csv file:
 - put ```Google-Playstore.csv``` file to ```data/``` directory
 - run script in ```prepare_data.ipynb```
-- run ```docker-compose up -d```
+- if you didn't run ```docker-compose up -d``` do it now. Tables are created automatically using  ```oracle-init-scripts/init.sql```
 - run ```docker exec -it oracledb sqlldr ztbd/password@FREE control=/oracle-data-loader/load.ctl SKIP=1```
+- run ```docker exec -i oracledb sqlplus ztbd/password@FREE < oracle-data-loader/load_oracle_data.sql```
