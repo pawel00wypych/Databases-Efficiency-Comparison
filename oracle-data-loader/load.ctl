@@ -1,23 +1,28 @@
 LOAD DATA
 INFILE '/shared-data/Google-Playstore_cleaned.csv'
-APPEND INTO TABLE developer
+INTO TABLE staging_table
 FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"'
 (
-    filler_field1 FILLER CHAR,   -- 1st Column: app_name
-    filler_field2 FILLER CHAR,   -- 2nd Column: app_id
-    filler_field3 FILLER CHAR,   -- 3rd Column: category
-    filler_field4 FILLER CHAR,   -- 4th Column: rating
-    filler_field5 FILLER CHAR,   -- 5th Column: rating count
-    filler_field6 FILLER CHAR,   -- 6th Column:
-    filler_field7 FILLER CHAR,   -- 7th Column:
-    filler_field8 FILLER CHAR,   -- 8th Column:
-    filler_field9 FILLER CHAR,   -- 9th Column:
-    filler_field10 FILLER CHAR,   -- 10th Column:
-    filler_field11 FILLER CHAR,   -- 11th Column:
-    filler_field12 FILLER CHAR,   -- 12th Column:
-    filler_field13 FILLER CHAR,   -- 13th Column:
-    developer_name CHAR,   -- 14th Column
-    developer_website CHAR, -- 15th Column
-    developer_email   CHAR  -- 16th Column
-    -- Remaining columns are ignored
+    app_name,
+    app_address,
+    category_name,
+    rating_value,
+    rating_count,
+    installs,
+    minimum_installs,
+    maximum_installs,
+    free CHAR(1) "CASE WHEN LENGTH(:free) = 1 THEN :free ELSE '0' END",
+    price,
+    currency_name,
+    app_size,
+    version,
+    developer_name,
+    developer_website,
+    developer_email,
+    released DATE "DD-MM-YYYY",
+    last_updated DATE "DD-MM-YYYY",
+    rating_name,
+    privacy_policy CHAR(1000) "SUBSTR(:privacy_policy, 1, 1000)",
+    ad_supported  CHAR(1) "CASE WHEN LENGTH(:ad_supported) = 1 THEN :ad_supported ELSE '0' END",
+    in_app_purchases  CHAR(1) "CASE WHEN LENGTH(:in_app_purchases) = 1 THEN :in_app_purchases ELSE '0' END"
 )

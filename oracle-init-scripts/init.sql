@@ -24,6 +24,32 @@ GRANT CREATE TABLE, CREATE VIEW, CREATE PROCEDURE, CREATE SEQUENCE TO ztbd;
 -- Switch to the new user
 ALTER SESSION SET CURRENT_SCHEMA = ztbd;
 
+-- Create staging table to load data from csv fast
+CREATE TABLE staging_table (
+    app_name VARCHAR2(255),
+    app_address VARCHAR2(255),
+    category_name VARCHAR2(64),
+    rating_value NUMBER(2,1),
+    rating_count NUMBER,
+    installs NUMBER(16),
+    minimum_installs NUMBER(16),
+    maximum_installs NUMBER(16),
+    free CHAR(1),
+    price NUMBER(10),
+    currency_name VARCHAR2(16),
+    app_size NUMBER,
+    version VARCHAR2(64),
+    developer_name VARCHAR2(255),
+    developer_website VARCHAR2(1000),
+    developer_email VARCHAR2(255),
+    released DATE,
+    last_updated DATE,
+    rating_name VARCHAR2(64),
+    privacy_policy VARCHAR2(1000),
+    ad_supported CHAR(1),
+    in_app_purchases CHAR(1)
+);
+
 -- First, create the independent tables: Currency, Developer, Content_Rating
 CREATE TABLE Currency (
     currency_id NUMBER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
@@ -33,7 +59,7 @@ CREATE TABLE Currency (
 CREATE TABLE Developer (
     developer_id NUMBER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
     developer_name VARCHAR2(255),
-    developer_website VARCHAR2(255),
+    developer_website VARCHAR2(1000),
     developer_email VARCHAR2(255)
 );
 
@@ -42,25 +68,32 @@ CREATE TABLE Content_Rating (
     rating_name VARCHAR2(64)
 );
 
+CREATE TABLE Minimum_Android (
+    android_id NUMBER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+    version VARCHAR2(64)
+);
+
 -- Create the dependent tables that reference the above tables
 CREATE TABLE Application (
     app_id NUMBER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
     app_name VARCHAR2(255),
+    app_address VARCHAR2(255),
     free CHAR(1),
     price NUMBER(10),
     currency_id NUMBER,
     app_size NUMBER,
     developer_id NUMBER,
+    android_id NUMBER,
     released DATE,
-    privacy_policy VARCHAR2(1024),
+    privacy_policy VARCHAR2(1000),
     last_updated DATE,
     content_rating_id NUMBER,
     ad_supported CHAR(1),
     in_app_purchases CHAR(1),
-    editor_choice CHAR(1),
     FOREIGN KEY (currency_id) REFERENCES Currency(currency_id),
     FOREIGN KEY (developer_id) REFERENCES Developer(developer_id),
-    FOREIGN KEY (content_rating_id) REFERENCES Content_Rating(content_rating_id)
+    FOREIGN KEY (content_rating_id) REFERENCES Content_Rating(content_rating_id),
+    FOREIGN KEY (android_id) REFERENCES Minimum_Android(android_id)
 );
 
 CREATE TABLE Category (
@@ -91,9 +124,4 @@ CREATE TABLE Install_History (
     minimum_installs NUMBER(16),
     maximum_installs NUMBER(16),
     FOREIGN KEY (app_id) REFERENCES Application(app_id) ON DELETE CASCADE
-);
-
-CREATE TABLE Minimum_Android (
-    android_id NUMBER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
-    version VARCHAR2(64)
 );
