@@ -1,5 +1,6 @@
 LOAD DATA
-INFILE '/shared-data/Google-Playstore_cleaned.csv'
+INFILE '/shared-data/Google-Playstore_cleaned_100000_rows.csv'
+REPLACE
 INTO TABLE staging_table
 FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"'
 (
@@ -11,7 +12,7 @@ FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"'
     installs,
     minimum_installs,
     maximum_installs,
-    free CHAR(1) "CASE WHEN LENGTH(:free) = 1 THEN :free ELSE '0' END",
+    free CHAR(100) "CASE WHEN LENGTH(:free) = 1 THEN :free ELSE '0' END",
     price,
     currency_name,
     app_size,
@@ -23,6 +24,9 @@ FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"'
     last_updated DATE "DD-MM-YYYY",
     rating_name,
     privacy_policy CHAR(1000) "SUBSTR(:privacy_policy, 1, 1000)",
-    ad_supported  CHAR(1) "CASE WHEN LENGTH(:ad_supported) = 1 THEN :ad_supported ELSE '0' END",
-    in_app_purchases  CHAR(1) "CASE WHEN LENGTH(:in_app_purchases) = 1 THEN :in_app_purchases ELSE '0' END"
+    ad_supported  CHAR(100) "CASE WHEN LENGTH(:ad_supported) = 1 THEN :ad_supported ELSE '0' END",
+    in_app_purchases  CHAR(100) "CASE WHEN LENGTH(:in_app_purchases) = 1 THEN :in_app_purchases ELSE '0' END"
+    -- SQLoader checks if data fits ex. CHAR(100) before executing "CASE WHEN LENGTH(:in_app_purchases) = 1
+    -- THEN :in_app_purchases ELSE '0' END"
+    -- This can cause "Field in data file exceeds maximum length" errors
 )
