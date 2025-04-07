@@ -34,5 +34,4 @@ https://www.kaggle.com/datasets/gauthamp10/google-playstore-apps?select=Google-P
 - put ```Google-Playstore.csv``` file to ```data/``` directory
 - run script in ```prepare_data.ipynb```
 - if you didn't run ```docker-compose up -d``` do it now. Tables are created automatically using  ```oracle-init-scripts/init.sql```
-- run ```docker exec -it oracledb sqlldr ztbd/password@FREE control=/oracle-data-loader/load.ctl SKIP=1```
-- run ```docker exec -i oracledb sqlplus ztbd/password@FREE < oracle-data-loader/load_oracle_data.sql```
+- run ```docker exec -it --user root oracledb bash -c "/oracle-data-loader/load_oracle_data.sh"```
