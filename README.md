@@ -1,9 +1,12 @@
-# Advanced_DB_project
-Comparison between efficiency in PostgreSQL, OracleDB, MongoDB 7 and MongoDB 8 using large dataset and CRUD operations. 
+# Database Efficiency Comparison
+Comparison between efficiency in PostgreSQL, OracleDB, MongoDB 7 and MongoDB 8 using large dataset and CRUD operations.
 
 ## Project requirements:
 - Python 3.13.1
 - Docker version 27.5.1
+
+## ERD Diagram:
+![Alt text](ERD.png)
 
 ## How to run docker containers in terminal:
 - Run docker desktop
