@@ -1,7 +1,9 @@
 
 services:
   mongodb7:
-    build: .
+    build:
+      context: ./mongodb7
+      dockerfile: Dockerfile
     container_name: mongodb7
     ports:
       - "27017:27017"
@@ -10,12 +12,14 @@ services:
       MONGO_INITDB_ROOT_PASSWORD: example
     volumes:
       - ./mongodb-init-scripts:/docker-entrypoint-initdb.d
-      - ./mongodb7-data-loader:/mongodb7-data-loader
+      - ./mongodb7/mongodb7-data-loader:/mongodb7-data-loader
       - ./data:/shared-data
     restart: unless-stopped
 
   mongodb8:
-    build: .
+    build:
+      context: ./mongodb8
+      dockerfile: Dockerfile
     container_name: mongodb8
     ports:
       - "27018:27017"
@@ -24,7 +28,7 @@ services:
       MONGO_INITDB_ROOT_PASSWORD: example
     volumes:
       - ./mongodb-init-scripts:/docker-entrypoint-initdb.d
-      - ./mongodb8-data-loader:/mongodb8-data-loader
+      - ./mongodb8/mongodb8-data-loader:/mongodb8-data-loader
       - ./data:/shared-data
     restart: unless-stopped
 
