@@ -9,8 +9,10 @@ services:
       MONGO_INITDB_ROOT_USERNAME: root
       MONGO_INITDB_ROOT_PASSWORD: example
     volumes:
-      - mongodb7_data:/data/db
+      - ./mongodb-init-scripts:/docker-entrypoint-initdb.d
+      - ./mongodb7-data-loader:/mongodb7-data-loader
       - ./data:/shared-data
+    restart: unless-stopped
 
   mongodb8:
     image: mongo:8.0
@@ -22,8 +24,9 @@ services:
       MONGO_INITDB_ROOT_PASSWORD: example
     volumes:
       - ./mongodb-init-scripts:/docker-entrypoint-initdb.d
-      - mongodb8_data:/data/db
+      - ./mongodb8-data-loader:/mongodb8-data-loader
       - ./data:/shared-data
+    restart: unless-stopped
 
   postgres:
     image: postgres:latest
