@@ -3,6 +3,9 @@
 # Automatically set executable permissions for the script
 chmod +x "$0"
 
+# Activate the virtual environment
+source /venv/bin/activate
+
 until mongosh --host localhost -u root -p example --authenticationDatabase admin --eval "db.adminCommand('ping')" &>/dev/null
 do
   sleep 2
@@ -26,5 +29,5 @@ EOF
 echo "User ztbd created."
 
 echo "Importing CSV into collections"
-python3 /mongodb8-data-loader/load_mongodb8-data.py
+python3 /mongodb8-data-loader/load-mongodb8-data.py
 echo "Import has been finished."

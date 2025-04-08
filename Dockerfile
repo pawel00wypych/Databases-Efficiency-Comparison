@@ -1,19 +1,18 @@
 FROM mongo:8.0
 
 # Install Python and pip
-RUN apt-get update && \
-    apt-get install -y python3 python3-pip && \
-    pip3 install pandas pymongo && \
-    apt-get clean && rm -rf /var/lib/apt/lists/*
+RUN apt-get update && apt-get install -y \
+    python3 \
+    python3-pip \
+    python3-venv \
+    && apt-get clean
 
-# Set working directory
-WORKDIR /docker-entrypoint-initdb.d
+# Create and activate a virtual environment for Python
+RUN python3 -m venv /venv
 
-# Ensure all init scripts are copied
-COPY mongodb-init-scripts/ /docker-entrypoint-initdb.d/
-COPY data/ /shared-data/
+# Install necessary Python packages inside the virtual environment
+RUN /venv/bin/pip install --upgrade pip
+RUN /venv/bin/pip install pandas pymongo
 
-# Make shell scripts executable
-RUN chmod +x /docker-entrypoint-initdb.d/*.sh
-
-# Set default entrypoint (inherited from mongo)
+# Set the PATH to use the virtual environment's python and pip by default
+ENV PATH="/venv/bin:$PATH"

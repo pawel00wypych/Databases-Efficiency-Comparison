@@ -1,7 +1,7 @@
 
 services:
   mongodb7:
-    image: mongo:7.0
+    build: .
     container_name: mongodb7
     ports:
       - "27017:27017"
@@ -15,7 +15,7 @@ services:
     restart: unless-stopped
 
   mongodb8:
-    image: mongo:8.0
+    build: .
     container_name: mongodb8
     ports:
       - "27018:27017"

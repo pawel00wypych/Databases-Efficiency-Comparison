@@ -5,15 +5,18 @@ from pymongo import MongoClient
 df = pd.read_csv('/shared-data/Google-Playstore_cleaned_10000_rows.csv')
 
 # Connect to MongoDB
-client = MongoClient("mongodb://ztbd:password@localhost:27017/?authSource=admin")
+client = MongoClient("mongodb://ztbd:password@mongodb8:27017/?authSource=mongodb8")
+
 db = client['mongodb8']
 
-# Insert into apps_basic collection
-apps_basic = df[['App', 'Category', 'Rating']].dropna()
+apps_basic = df[['App Name', 'Category', 'Rating']].dropna()
 db['apps_basic'].insert_many(apps_basic.to_dict(orient='records'))
 
-# Insert into installs_info collection
-installs_info = df[['App', 'Installs', 'Size']].dropna()
+installs_info = df[['App Name', 'Installs', 'Size']].dropna()
 db['installs_info'].insert_many(installs_info.to_dict(orient='records'))
 
-print("✅ Data successfully loaded into MongoDB.")
+
+print("installs_info shape:", installs_info.shape)
+print(installs_info.head())
+
+print("Data successfully loaded into Mongodb8.")
