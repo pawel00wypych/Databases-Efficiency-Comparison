@@ -42,7 +42,9 @@ services:
       POSTGRES_PASSWORD: password
       POSTGRES_DB: mydatabase
     volumes:
-      - postgres_data:/var/lib/postgresql/data
+      - ./postgres-init-scripts:/docker-entrypoint-initdb.d
+      - ./postgresql-data-loader:/postgressql-data-loader  
+      - ./data:/shared-data
 
   oracledb:
     image: gvenzl/oracle-free:latest
