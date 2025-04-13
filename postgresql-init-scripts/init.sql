@@ -21,7 +21,7 @@ ALTER ROLE ztbd SET search_path TO public;
 
 
 -- Switch to the new user
-SET search_path TO ztbd;
+CREATE SCHEMA IF NOT EXISTS ztbd AUTHORIZATION ztbd;
 
 DROP TABLE IF EXISTS staging_table;
 

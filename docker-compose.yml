@@ -38,11 +38,11 @@ services:
     ports:
       - "5432:5432"
     environment:
-      POSTGRES_USER: user
-      POSTGRES_PASSWORD: password
+      POSTGRES_USER: ztbd
+      POSTGRES_PASSWORD: ztbd
       POSTGRES_DB: mydatabase
     volumes:
-      - ./postgres-init-scripts:/docker-entrypoint-initdb.d
+      - ./postgresql-init-scripts:/docker-entrypoint-initdb.d
       - ./postgresql-data-loader:/postgressql-data-loader  
       - ./data:/shared-data
 
