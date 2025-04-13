@@ -26,15 +26,15 @@ CREATE SCHEMA IF NOT EXISTS ztbd AUTHORIZATION ztbd;
 DROP TABLE IF EXISTS staging_table;
 
 -- Create staging table to load data from csv fast
-CREATE TEMPORARY TABLE staging_table (
+CREATE TABLE staging_table (
     app_name VARCHAR(255),
     app_address VARCHAR(255),
     category_name VARCHAR(64),
     rating_value NUMERIC(2,1),
-    rating_count INTEGER,
-    installs BIGINT,
-    minimum_installs BIGINT,
-    maximum_installs BIGINT,
+    rating_count NUMERIC,
+    installs NUMERIC,
+    minimum_installs NUMERIC,
+    maximum_installs NUMERIC,
     free CHAR(1),
     price NUMERIC(10),
     currency_name VARCHAR(16),
@@ -46,7 +46,7 @@ CREATE TEMPORARY TABLE staging_table (
     released DATE,
     last_updated DATE,
     rating_name VARCHAR(64),
-    privacy_policy VARCHAR(1000),
+    privacy_policy TEXT,
     ad_supported CHAR(1),
     in_app_purchases CHAR(1)
 );
@@ -85,7 +85,7 @@ CREATE TABLE Application (
     developer_id INTEGER REFERENCES Developer(developer_id),
     android_id INTEGER REFERENCES Minimum_Android(android_id),
     released DATE,
-    privacy_policy VARCHAR(1000),
+    privacy_policy TEXT,
     last_updated DATE,
     content_rating_id INTEGER REFERENCES Content_Rating(content_rating_id),
     ad_supported CHAR(1),
@@ -107,13 +107,13 @@ CREATE TABLE Rating (
     rating_id INTEGER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
     app_id INTEGER REFERENCES Application(app_id) ON DELETE CASCADE,
     rating_value NUMERIC(2,1),
-    rating_count INTEGER
+    rating_count NUMERIC
 );
 
 CREATE TABLE Install_History (
     install_id INTEGER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
     app_id INTEGER REFERENCES Application(app_id) ON DELETE CASCADE,
-    installs BIGINT,
-    minimum_installs BIGINT,
-    maximum_installs BIGINT
+    installs NUMERIC,
+    minimum_installs NUMERIC,
+    maximum_installs NUMERIC
 );
