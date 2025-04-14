@@ -1,5 +1,5 @@
-DO $$
-DECLARE
+DO $$ 
+DECLARE 
     v_start_time TIMESTAMP;
     v_end_time TIMESTAMP;
     v_elapsed_time INTERVAL;
@@ -9,9 +9,12 @@ DECLARE
     v_inserted_rows BIGINT := 0;
     v_insert_count INTEGER;
     v_index_exists INTEGER := 0;
-    v_run_count INTEGER := 5;  -- Number of iterations
+    v_run_count INTEGER := 5; -- Number of iterations
 BEGIN
     v_start_time_total := now();
+
+    -- Set datestyle once at the beginning
+    PERFORM pg_catalog.set_config('datestyle', 'DMY', true);
 
     FOR i IN 1..v_run_count LOOP
         v_start_time := now();
@@ -181,7 +184,7 @@ BEGIN
         GET DIAGNOSTICS v_insert_count = ROW_COUNT;
         v_inserted_rows := v_inserted_rows + v_insert_count;
 
-        -- Commit
+        -- Commit after all inserts
         COMMIT;
 
         v_end_time := now();
