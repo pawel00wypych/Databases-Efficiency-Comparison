@@ -2,7 +2,7 @@ import pandas as pd
 from pymongo import MongoClient
 import time
 
-INSERT_EXECUTIONS = 10
+INSERT_EXECUTIONS = 5
 path = '/shared-data/'
 files = ['Google-Playstore_cleaned_10000_rows.csv',
          'Google-Playstore_cleaned_100000_rows.csv',
