@@ -6,7 +6,7 @@ PASSWORD="password"
 DB="mydatabase"
 HOST="localhost"
 PORT="5432"
-SQL_FILE="/postgressql-data-loader/load_postgresql_data.sql"
+SQL_FILE="/postgresql-data-loader/load_postgresql_data.sql"
 
 # Lista plików CSV do załadowania
 CSV_FILES=(

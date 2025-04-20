@@ -43,8 +43,9 @@ services:
       POSTGRES_DB: mydatabase
     volumes:
       - ./postgresql-init-scripts:/docker-entrypoint-initdb.d
-      - ./postgresql-data-loader:/postgressql-data-loader  
+      - ./postgresql-data-loader:/postgresql-data-loader
       - ./data:/shared-data
+    restart: unless-stopped
 
   oracledb:
     image: gvenzl/oracle-free:latest

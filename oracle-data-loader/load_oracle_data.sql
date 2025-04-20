@@ -7,17 +7,17 @@ DECLARE
     v_start_time   TIMESTAMP;
     v_end_time     TIMESTAMP;
     v_elapsed_time INTERVAL DAY TO SECOND;
-    v_start_time_total   TIMESTAMP;
-    v_end_time_total    TIMESTAMP;
-    v_elapsed_time_total INTERVAL DAY TO SECOND;
+    v_elapsed_time_total NUMBER := 0; -- Accumulate time in seconds
+    v_avg_seconds NUMBER;
+    v_hours NUMBER;
+    v_minutes NUMBER;
+    v_seconds NUMBER;
     v_inserted_rows NUMBER := 0;
     v_index_exists NUMBER := 0;
     v_run_count NUMBER := 5;  -- Number of iterations
 BEGIN
-    v_start_time_total := SYSTIMESTAMP;
     FOR i IN 1..v_run_count LOOP
         -- Record the start time
-        v_start_time := SYSTIMESTAMP;
         v_inserted_rows := 0;
 
         -- Disable foreign key constraints
@@ -78,6 +78,8 @@ BEGIN
                 DBMS_OUTPUT.PUT_LINE('Indexes already exist. Skipping creation.');
             END IF;
         END;
+
+        v_start_time := SYSTIMESTAMP;
 
         -- 1. Insert into lookup tables (deduplicated)
         INSERT INTO Currency (currency_name)
@@ -205,6 +207,10 @@ BEGIN
         v_end_time := SYSTIMESTAMP;
 
         v_elapsed_time := v_end_time - v_start_time;
+        v_elapsed_time_total := v_elapsed_time_total + EXTRACT(SECOND FROM v_elapsed_time) +
+                                EXTRACT(MINUTE FROM v_elapsed_time) * 60 +
+                                EXTRACT(HOUR FROM v_elapsed_time) * 3600;
+
         -- Display the start time, end time, and elapsed time
         DBMS_OUTPUT.PUT_LINE('Time start: ' || TO_CHAR(v_start_time, 'HH24:MI:SS.FF'));
         DBMS_OUTPUT.PUT_LINE('Time finished: ' || TO_CHAR(v_end_time, 'HH24:MI:SS.FF'));
@@ -213,13 +219,21 @@ BEGIN
 
      END LOOP;
 
+    v_avg_seconds := v_elapsed_time_total / v_run_count;
 
-    v_end_time_total := SYSTIMESTAMP;
-    v_elapsed_time_total := v_end_time_total - v_start_time_total;
+    -- Calculate and display the total execution time in HH:MI:SS format
+    v_hours := FLOOR(v_elapsed_time_total / 3600);
+    v_minutes := FLOOR((v_elapsed_time_total - v_hours * 3600) / 60);
+    v_seconds := v_elapsed_time_total - (v_hours * 3600 + v_minutes * 60);
 
-    -- Output the average execution time in HH:MI:SS format
-    DBMS_OUTPUT.PUT_LINE('Total Execution Time: ' || TO_CHAR(v_elapsed_time_total, 'HH24:MI:SS.FF'));
+    DBMS_OUTPUT.PUT_LINE('Total Execution Time: ' || TO_CHAR(v_hours, 'FM00') || ':' || TO_CHAR(v_minutes, 'FM00') || ':' || TO_CHAR(v_seconds, 'FM00'));
+
+    -- Calculate and display the average execution time in HH:MI:SS format
+    v_hours := FLOOR(v_avg_seconds / 3600);
+    v_minutes := FLOOR((v_avg_seconds - v_hours * 3600) / 60);
+    v_seconds := v_avg_seconds - (v_hours * 3600 + v_minutes * 60);
+
+    DBMS_OUTPUT.PUT_LINE('Average Execution Time: ' || TO_CHAR(v_hours, 'FM00') || ':' || TO_CHAR(v_minutes, 'FM00') || ':' || TO_CHAR(v_seconds, 'FM00'));
     DBMS_OUTPUT.PUT_LINE('Number of executions: ' || TO_CHAR(v_run_count));
-    DBMS_OUTPUT.PUT_LINE('Average Execution Time: ' || TO_CHAR(v_elapsed_time_total/v_run_count));
 END;
 /

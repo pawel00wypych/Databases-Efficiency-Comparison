@@ -3,21 +3,18 @@ DECLARE
     v_start_time TIMESTAMP;
     v_end_time TIMESTAMP;
     v_elapsed_time INTERVAL;
-    v_start_time_total TIMESTAMP;
-    v_end_time_total TIMESTAMP;
-    v_elapsed_time_total INTERVAL;
+    v_elapsed_time_total INTERVAL := INTERVAL '0';
     v_inserted_rows BIGINT := 0;
     v_insert_count INTEGER;
     v_index_exists INTEGER := 0;
     v_run_count INTEGER := 5; -- Number of iterations
 BEGIN
-    v_start_time_total := now();
 
     -- Set datestyle once at the beginning
     PERFORM pg_catalog.set_config('datestyle', 'DMY', true);
 
     FOR i IN 1..v_run_count LOOP
-        v_start_time := now();
+
         v_inserted_rows := 0;
 
         -- Disable FK constraints
@@ -52,6 +49,8 @@ BEGIN
         ELSE
             RAISE NOTICE 'Indexes already exist. Skipping creation.';
         END IF;
+
+        v_start_time := now();
 
         -- Insert Currency
         INSERT INTO Currency (currency_name)
@@ -189,17 +188,17 @@ BEGIN
 
         v_end_time := now();
         v_elapsed_time := v_end_time - v_start_time;
+        v_elapsed_time_total := v_elapsed_time_total + v_elapsed_time;
 
         -- Output iteration stats
         RAISE NOTICE 'Time start: %', v_start_time;
         RAISE NOTICE 'Time finished: %', v_end_time;
         RAISE NOTICE 'Elapsed time: %', v_elapsed_time;
         RAISE NOTICE 'Total Rows Inserted: %', v_inserted_rows;
+
     END LOOP;
 
-    v_end_time_total := now();
-    v_elapsed_time_total := v_end_time_total - v_start_time_total;
-
+    TRUNCATE TABLE staging_table;
     -- Summary
     RAISE NOTICE 'Total Execution Time: %', v_elapsed_time_total;
     RAISE NOTICE 'Number of executions: %', v_run_count;

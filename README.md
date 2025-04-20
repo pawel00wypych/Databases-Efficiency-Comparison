@@ -28,6 +28,9 @@ https://www.kaggle.com/datasets/gauthamp10/google-playstore-apps?select=Google-P
 ## How to create tables and load data to oracleDB from csv file:
 - run ```docker exec -it --user root oracledb bash -c "/oracle-data-loader/load_oracle_data.sh"```
 
+## How to create tables and load data to Postgresql from csv file:
+- run ```docker exec -it --user root postgres bash -c "/postgresql-data-loader/load_postgresql_data.sh"```
+
 ## How to create collections and load data to mongodb8 from csv file:
 - run ```docker exec -it --user root mongodb8 bash -c "/mongodb8-data-loader/load.sh"```
 
