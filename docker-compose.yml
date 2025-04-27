@@ -1,7 +1,9 @@
 
 services:
   mongodb7:
-    image: mongo:7.0
+    build:
+      context: ./mongodb7
+      dockerfile: Dockerfile
     container_name: mongodb7
     ports:
       - "27017:27017"
@@ -9,10 +11,15 @@ services:
       MONGO_INITDB_ROOT_USERNAME: root
       MONGO_INITDB_ROOT_PASSWORD: example
     volumes:
-      - mongodb7_data:/data/db
+      - ./mongodb-init-scripts:/docker-entrypoint-initdb.d
+      - ./mongodb7/mongodb7-data-loader:/mongodb7-data-loader
+      - ./data:/shared-data
+    restart: unless-stopped
 
   mongodb8:
-    image: mongo:8.0
+    build:
+      context: ./mongodb8
+      dockerfile: Dockerfile
     container_name: mongodb8
     ports:
       - "27018:27017"
@@ -20,7 +27,10 @@ services:
       MONGO_INITDB_ROOT_USERNAME: root
       MONGO_INITDB_ROOT_PASSWORD: example
     volumes:
-      - mongodb8_data:/data/db
+      - ./mongodb-init-scripts:/docker-entrypoint-initdb.d
+      - ./mongodb8/mongodb8-data-loader:/mongodb8-data-loader
+      - ./data:/shared-data
+    restart: unless-stopped
 
   postgres:
     image: postgres:latest
@@ -28,11 +38,14 @@ services:
     ports:
       - "5432:5432"
     environment:
-      POSTGRES_USER: user
-      POSTGRES_PASSWORD: password
+      POSTGRES_USER: ztbd
+      POSTGRES_PASSWORD: ztbd
       POSTGRES_DB: mydatabase
     volumes:
-      - postgres_data:/var/lib/postgresql/data
+      - ./postgresql-init-scripts:/docker-entrypoint-initdb.d
+      - ./postgresql-data-loader:/postgresql-data-loader
+      - ./data:/shared-data
+    restart: unless-stopped
 
   oracledb:
     image: gvenzl/oracle-free:latest
