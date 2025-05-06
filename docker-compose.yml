@@ -57,6 +57,7 @@ services:
     volumes:
       - ./oracle-init-scripts:/docker-entrypoint-initdb.d  # Mount SQL scripts
       - ./oracle-data-loader:/oracle-data-loader  # Mount script in dir where it won't be executed automatically
+      - ./oracle-queries:/oracle-queries
       - ./data:/shared-data
     restart: unless-stopped
 

@@ -14,7 +14,7 @@ DECLARE
     v_seconds NUMBER;
     v_inserted_rows NUMBER := 0;
     v_index_exists NUMBER := 0;
-    v_run_count NUMBER := 5;  -- Number of iterations
+    v_run_count NUMBER := 1;  -- Number of iterations
 BEGIN
     FOR i IN 1..v_run_count LOOP
         -- Record the start time
