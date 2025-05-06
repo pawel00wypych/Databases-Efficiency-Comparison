@@ -1,0 +1,27 @@
+SET TERMOUT ON;
+SET FEEDBACK OFF;
+SET PAGESIZE 0;
+SET LINESIZE 200;
+SET TIMING ON;
+
+SELECT app_name, app_address, app_size
+FROM Application
+CROSS JOIN (SELECT LEVEL AS n FROM dual CONNECT BY LEVEL <= 100)
+WHERE ROWNUM <= 10000;
+
+SELECT app_name, app_address, app_size
+FROM Application
+CROSS JOIN (SELECT LEVEL AS n FROM dual CONNECT BY LEVEL <= 100)
+WHERE ROWNUM <= 100000;
+
+SELECT app_name, app_address, app_size
+FROM Application
+CROSS JOIN (SELECT LEVEL AS n FROM dual CONNECT BY LEVEL <= 100)
+WHERE ROWNUM <= 500000;
+
+SELECT app_name, app_address, app_size
+FROM Application
+CROSS JOIN (SELECT LEVEL AS n FROM dual CONNECT BY LEVEL <= 100)
+WHERE ROWNUM <= 1000000;
+
+EXIT;
