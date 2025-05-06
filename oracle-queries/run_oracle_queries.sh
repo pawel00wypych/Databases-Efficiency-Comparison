@@ -19,35 +19,35 @@ SQL_FILE_DELETE_HARD="/oracle-queries/hard_delete_queries.sql"
 
 
 echo "Running SQL script - simple SELECT data from OracleDB..."
-# sqlplus -s $USER/$PASSWORD@$DB < $SQL_FILE_SELECT_SIMPLE | grep "Elapsed"
+sqlplus -s $USER/$PASSWORD@$DB < $SQL_FILE_SELECT_SIMPLE | grep "Elapsed"
 echo "SQL script for simple SELECT queries completed."
 
 echo "Running SQL script - medium SELECT data from OracleDB..."
-# sqlplus -s $USER/$PASSWORD@$DB < $SQL_FILE_SELECT_MEDIUM | grep "Elapsed"
+sqlplus -s $USER/$PASSWORD@$DB < $SQL_FILE_SELECT_MEDIUM | grep "Elapsed"
 echo "SQL script for medium SELECT queries completed."
 
 echo "Running SQL script - hard SELECT data from OracleDB..."
-# sqlplus -s $USER/$PASSWORD@$DB < $SQL_FILE_SELECT_HARD | grep "Elapsed"
+sqlplus -s $USER/$PASSWORD@$DB < $SQL_FILE_SELECT_HARD | grep "Elapsed"
 echo "SQL script for hard SELECT queries completed."
 
 echo "Running SQL script - simple UPDATE data from OracleDB..."
-# sqlplus -s $USER/$PASSWORD@$DB < $SQL_FILE_UPDATE_SIMPLE
+sqlplus -s $USER/$PASSWORD@$DB < $SQL_FILE_UPDATE_SIMPLE
 echo "SQL script for simple UPDATE queries completed."
 
 echo "Running SQL script - medium UPDATE data from OracleDB..."
-# sqlplus -s $USER/$PASSWORD@$DB < $SQL_FILE_UPDATE_MEDIUM
+sqlplus -s $USER/$PASSWORD@$DB < $SQL_FILE_UPDATE_MEDIUM
 echo "SQL script for medium UPDATE queries completed."
 
 echo "Running SQL script - hard UPDATE data from OracleDB..."
-# sqlplus -s $USER/$PASSWORD@$DB < $SQL_FILE_UPDATE_HARD
+sqlplus -s $USER/$PASSWORD@$DB < $SQL_FILE_UPDATE_HARD
 echo "SQL script for hard UPDATE queries completed."
 
 echo "Running SQL script - simple DELETE data from OracleDB..."
-# sqlplus -s $USER/$PASSWORD@$DB < $SQL_FILE_DELETE_SIMPLE
+sqlplus -s $USER/$PASSWORD@$DB < $SQL_FILE_DELETE_SIMPLE
 echo "SQL script for simple DELETE queries completed."
 
 echo "Running SQL script - medium DELETE data from OracleDB..."
-#sqlplus -s $USER/$PASSWORD@$DB < $SQL_FILE_DELETE_MEDIUM
+sqlplus -s $USER/$PASSWORD@$DB < $SQL_FILE_DELETE_MEDIUM
 echo "SQL script for medium DELETE queries completed."
 
 echo "Running SQL script - hard DELETE data from OracleDB..."
