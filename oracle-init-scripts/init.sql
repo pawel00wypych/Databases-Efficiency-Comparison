@@ -90,10 +90,10 @@ CREATE TABLE Application (
     content_rating_id NUMBER,
     ad_supported CHAR(1),
     in_app_purchases CHAR(1),
-    FOREIGN KEY (currency_id) REFERENCES Currency(currency_id),
-    FOREIGN KEY (developer_id) REFERENCES Developer(developer_id),
-    FOREIGN KEY (content_rating_id) REFERENCES Content_Rating(content_rating_id),
-    FOREIGN KEY (android_id) REFERENCES Minimum_Android(android_id)
+    FOREIGN KEY (currency_id) REFERENCES Currency(currency_id) ON DELETE CASCADE,
+    FOREIGN KEY (developer_id) REFERENCES Developer(developer_id) ON DELETE CASCADE,
+    FOREIGN KEY (content_rating_id) REFERENCES Content_Rating(content_rating_id) ON DELETE CASCADE,
+    FOREIGN KEY (android_id) REFERENCES Minimum_Android(android_id) ON DELETE CASCADE
 );
 
 CREATE TABLE Category (
@@ -105,8 +105,8 @@ CREATE TABLE Application_Category (
     app_id NUMBER,
     category_id NUMBER,
     PRIMARY KEY (app_id, category_id),
-    FOREIGN KEY (app_id) REFERENCES Application(app_id),
-    FOREIGN KEY (category_id) REFERENCES Category(category_id)
+    FOREIGN KEY (app_id) REFERENCES Application(app_id) ON DELETE CASCADE,
+    FOREIGN KEY (category_id) REFERENCES Category(category_id) ON DELETE CASCADE
 );
 
 CREATE TABLE Rating (

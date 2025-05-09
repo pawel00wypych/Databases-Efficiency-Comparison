@@ -1,5 +1,5 @@
 LOAD DATA
-INFILE '/shared-data/Google-Playstore_cleaned_500000_rows.csv'
+INFILE '/shared-data/Google-Playstore_cleaned_1000000_rows.csv'
 REPLACE
 INTO TABLE staging_table
 FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"'
