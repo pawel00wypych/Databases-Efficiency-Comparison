@@ -44,6 +44,7 @@ services:
     volumes:
       - ./postgresql-init-scripts:/docker-entrypoint-initdb.d
       - ./postgresql-data-loader:/postgresql-data-loader
+      - ./postgresql-queries:/postgresql-queries
       - ./data:/shared-data
     restart: unless-stopped
 
