@@ -17,7 +17,7 @@ BEGIN
         JOIN Rating r ON a.app_id = r.app_id
         JOIN Install_History ih ON a.app_id = ih.app_id
         WHERE r.rating_value < 4
-          AND ih.maximum_installs < 10000
+          AND ih.maximum_installs > 1
     )
     AND ROWNUM <= 10000;
 
@@ -35,7 +35,7 @@ BEGIN
         JOIN Rating r ON a.app_id = r.app_id
         JOIN Install_History ih ON a.app_id = ih.app_id
         WHERE r.rating_value < 4
-          AND ih.maximum_installs < 10000
+          AND ih.maximum_installs > 1
     )
     AND ROWNUM <= 100000;
 
@@ -53,7 +53,7 @@ BEGIN
         JOIN Rating r ON a.app_id = r.app_id
         JOIN Install_History ih ON a.app_id = ih.app_id
         WHERE r.rating_value < 4
-          AND ih.maximum_installs < 10000
+          AND ih.maximum_installs > 1
     )
     AND ROWNUM <= 500000;
 
@@ -71,7 +71,7 @@ BEGIN
         JOIN Rating r ON a.app_id = r.app_id
         JOIN Install_History ih ON a.app_id = ih.app_id
         WHERE r.rating_value < 4
-          AND ih.maximum_installs < 10000
+          AND ih.maximum_installs > 1
     )
     AND ROWNUM <= 1000000;
 

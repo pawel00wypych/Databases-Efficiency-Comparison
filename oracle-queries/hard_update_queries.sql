@@ -13,7 +13,7 @@ BEGIN
         JOIN Rating r ON a2.app_id = r.app_id
         JOIN Install_History ih ON a2.app_id = ih.app_id
         JOIN Developer d ON a2.developer_id = d.developer_id
-        WHERE ih.installs >= 10000
+        WHERE ih.installs >= 1
           AND (r.rating_value >= 3.0 OR REGEXP_LIKE(d.developer_name, '.*hack.*', 'i'))
           AND ROWNUM <= 10000
     ) src
@@ -46,7 +46,7 @@ BEGIN
         JOIN Rating r ON a2.app_id = r.app_id
         JOIN Install_History ih ON a2.app_id = ih.app_id
         JOIN Developer d ON a2.developer_id = d.developer_id
-        WHERE ih.installs >= 10000
+        WHERE ih.installs >= 1
           AND (r.rating_value >= 3.0 OR REGEXP_LIKE(d.developer_name, '.*hack.*', 'i'))
           AND ROWNUM <= 100000
     ) src
@@ -80,7 +80,7 @@ BEGIN
         JOIN Rating r ON a2.app_id = r.app_id
         JOIN Install_History ih ON a2.app_id = ih.app_id
         JOIN Developer d ON a2.developer_id = d.developer_id
-        WHERE ih.installs >= 10000
+        WHERE ih.installs >= 1
           AND (r.rating_value >= 3.0 OR REGEXP_LIKE(d.developer_name, '.*hack.*', 'i'))
           AND ROWNUM <= 500000
     ) src
@@ -113,7 +113,7 @@ BEGIN
         JOIN Rating r ON a2.app_id = r.app_id
         JOIN Install_History ih ON a2.app_id = ih.app_id
         JOIN Developer d ON a2.developer_id = d.developer_id
-        WHERE ih.installs >= 10000
+        WHERE ih.installs >= 1
           AND (r.rating_value >= 3.0 OR REGEXP_LIKE(d.developer_name, '.*hack.*', 'i'))
           AND ROWNUM <= 1000000
     ) src
