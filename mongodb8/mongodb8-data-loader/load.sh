@@ -31,3 +31,7 @@ echo "User ztbd created."
 echo "Importing CSV into collections"
 python3 /mongodb8-data-loader/load-mongodb8-data.py
 echo "Import has been finished."
+
+echo "Performance testing MongoDB8..."
+python3 /mongodb8-data-loader/mongodb8_performance_test.py
+echo "Test have been finished."
